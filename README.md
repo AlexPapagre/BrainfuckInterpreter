@@ -81,11 +81,11 @@ Here’s how the 8 Brainfuck commands work.
         </tr>
         <tr>
             <td style="text-align:center;">[</td>
-            <td style="text-align:left;">If the byte at the data pointer is zero, then instead of moving the instruction pointer forward to the next command,<br>jump it forward to the command after the matching ] command.</td>
+            <td style="text-align:left;">If the byte at the data pointer is zero,<br>then instead of moving the instruction pointer forward to the next command,<br>jump it forward to the command after the matching ] command.</td>
         </tr>
         <tr>
             <td style="text-align:center;">]</td>
-            <td style="text-align:left;">If the byte at the data pointer is nonzero, then instead of moving the instruction pointer forward to the next command,<br>jump it back to the command after the matching [ command.</td>
+            <td style="text-align:left;">If the byte at the data pointer is nonzero,<br>then instead of moving the instruction pointer forward to the next command,<br>jump it back to the command after the matching [ command.</td>
         </tr>
     </tbody>
 </table>
