@@ -25,7 +25,7 @@ char *add_command(size_t *size, size_t *capacity, char *buffer, char c, int *com
 }
 
 char *user_input(size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
-    printf("Input: (Press enter after an emtpy row to stop input):\n");
+    printf("Input: (Press Enter after an emtpy row to stop input):\n");
 
     char line[1024];
     while (fgets(line, sizeof(line), stdin) != NULL) {

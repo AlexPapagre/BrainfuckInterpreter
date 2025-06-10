@@ -18,23 +18,33 @@ This is a Brainfuck Interpreter written in C. It supports all standard Brainfuck
 
 ### Compile
 
+To compile the project, run:
+
 ```bash
 make
 ```
 
+This will build the program and create an executable file called `bf`.
+
 ---
 
-### Run 1 (enter code through user input in stdin)
+### Run (Mode 1)
+
+Enter Brainfuck code manually via standard input:
 
 ```bash
 ./bf
 ```
 
+You'll be prompted to type your code. Press `Enter` after an empty row when you're done.
+
 ---
 
-### Run 2 (enter filename with bf code)
+### Run (Mode 2)
 
-Example for file `helloWorld.bf` inside `sample_bf_code` directory.
+Run a Brainfuck program from a file.
+
+For example, if you have a file called `helloWorld.bf` inside the `sample_bf_code` directory:
 
 ```bash
 ./bf sample_bf_code/helloWorld.bf
@@ -42,9 +52,21 @@ Example for file `helloWorld.bf` inside `sample_bf_code` directory.
 
 ---
 
-## Commands
+### Clean
 
-Here’s how the 8 Brainfuck commands work.
+Remove the compiled executable file `bf`:
+
+```bash
+make clean
+```
+
+Use this if you want to rebuild from scratch or delete the executable entirely.
+
+---
+
+## Brainfuck Commands
+
+Brainfuck is a minimalist programming language with only 8 commands. These commands operate on an array of memory cells (usually bytes) and a data pointer that moves along the cells. Understanding these commands is key to writing and reading Brainfuck programs.
 
 
 <table>
@@ -89,3 +111,37 @@ Here’s how the 8 Brainfuck commands work.
         </tr>
     </tbody>
 </table>
+
+---
+
+## Example: Hello World
+
+Here’s a classic Brainfuck program that prints **"Hello World!"**:
+
+```brainfuck
+>+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.>>>++++++++[<++++>-]<.>>>++++++++++[<+++++++++>-]<---.<<<<.+++.------.--------.>>+.>++++++++++.
+```
+
+### How it works
+
+- The code uses a loop (`[ ]`) to efficiently set initial values in memory cells.
+- The pointer (`>`, `<`) moves between cells to set up ASCII codes for characters.
+- The `+` and `-` commands increment or decrement cell values.
+- The `.` command outputs the current cell’s ASCII character.
+- Together, these commands print "Hello World!" one character at a time.
+
+---
+
+## Example: Simple Input/Output Test
+
+This simple Brainfuck program takes 8 characters as input and immediately outputs them back.
+
+```brainfuck
+,.,.,.,.,.,.,.,.
+```
+
+### How it works
+
+- The `,` command reads one character from user input into the current cell.
+- The `.` command outputs the character stored in the current cell.
+- This program repeats the sequence 8 times, reading and then immediately outputting each character.
