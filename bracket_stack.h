@@ -1,6 +1,8 @@
 #ifndef BRACKET_STACK_H
 #define BRACKET_STACK_H
 
+#include <stddef.h>
+
 #define MAX 1000
 
 extern size_t brackets[MAX];
