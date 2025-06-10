@@ -2,6 +2,7 @@
 #define BRACKET_STACK_H
 
 #include <stddef.h>
+#include <stdbool.h>
 
 #define MAX 1000
 
@@ -11,8 +12,8 @@ extern int top;
 void push(size_t i);
 size_t pop();
 size_t peek();
-int isFull();
-int isEmpty();
+bool isEmpty();
+bool isFull();
 int size();
 
 #endif

@@ -6,7 +6,44 @@
 #define BF_SIZE 30000
 #define INITIAL_BUFFER_CAPACITY 128
 
-char *add(size_t *size, size_t *capacity, char *buffer, char c, int *comma_counter) {
+char *userInput(size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
+    printf("Input: (Press enter after an emtpy row to stop input):\n");
+
+    char line[1024];
+    while (fgets(line, sizeof(line), stdin) != NULL) {
+        if (strcmp(line, "\n") == 0) {
+            break;
+        }
+
+        for (size_t i = 0; i < strlen(line); i++) {
+            buffer = addCommand(size, capacity, buffer, line[i], comma_counter);
+        }
+    }
+
+    return buffer;
+}
+
+char *fileInput(char *filename, size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Error opening file.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Input:\n");
+
+    int c;
+    while ((c = fgetc(file)) != EOF) {
+        printf("%c", c);
+        buffer = addCommand(size, capacity, buffer, (char) c, comma_counter);
+    }
+
+    fclose(file);
+
+    return buffer;
+}
+
+char *addCommand(size_t *size, size_t *capacity, char *buffer, char c, int *comma_counter) {
     if (*size >= *capacity) {
         *capacity *= 2;
         char *tmp_buffer = realloc(buffer, *capacity);
@@ -94,18 +131,7 @@ int main(int argc, char *argv[]) {
     int comma_counter = 0;
 
     if (argc < 2) {
-        printf("Input: (Press enter after an emtpy row to stop input):\n");
-
-        char line[1024];
-        while (fgets(line, sizeof(line), stdin) != NULL) {
-            if (strcmp(line, "\n") == 0) {
-                break;
-            }
-
-            for (size_t i = 0; i < strlen(line); i++) {
-                buffer = add(&size, &capacity, buffer, line[i], &comma_counter);
-            }
-        }
+        buffer = userInput(&size, &capacity, buffer, &comma_counter);
     } else {
         FILE *file = fopen(argv[1], "r");
         if (file == NULL) {
@@ -118,11 +144,12 @@ int main(int argc, char *argv[]) {
         int c;
         while ((c = fgetc(file)) != EOF) {
             printf("%c", c);
-            buffer = add(&size, &capacity, buffer, c, &comma_counter);
+            buffer = addCommand(&size, &capacity, buffer, c, &comma_counter);
         }
 
         fclose(file);
     }
+    buffer = (argc < 2) ? userInput(&size, &capacity, buffer, &comma_counter) : fileInput(argv[1], &size, &capacity, buffer, &comma_counter);
     printf("\n\n");
 
     if (size >= capacity) {
@@ -183,6 +210,11 @@ int main(int argc, char *argv[]) {
         bf(buffer[i], &i, comma_inputs);
     }
     printf("\n");
+
+    if (!isEmpty()) {
+        fprintf(stderr, "UNBALANCED BRACKETS\n");
+        exit(EXIT_FAILURE);
+    }
 
     if (comma_counter > 0) {
         free(comma_inputs);

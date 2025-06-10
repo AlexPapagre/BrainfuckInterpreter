@@ -32,12 +32,12 @@ size_t peek() {
     }
 }
 
-int isFull() {
-    return top == MAX - 1;
+bool isEmpty() {
+    return top == -1;
 }
 
-int isEmpty() {
-    return top == -1;
+bool isFull() {
+    return top == MAX - 1;
 }
 
 int size() {
