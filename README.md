@@ -34,10 +34,10 @@ make
 
 ### Run 2 (enter filename with bf code)
 
-Example for file `helloWorld.bf`.
+Example for file `helloWorld.bf` inside `sample_bf_code` directory.
 
 ```bash
-./bf helloWorld.bf
+./bf sample_bf_code/helloWorld.bf
 ```
 
 ---

@@ -87,7 +87,7 @@ char *comma_input(int comma_counter) {
         exit(EXIT_FAILURE);
     }
 
-    printf("\nProvide %d character%s of input (for ',' commands):\n", comma_counter, (comma_counter == 1 ? "" : "s"));
+    printf("Comma inputs (Provide %d character%s for ',' commands):\n", comma_counter, (comma_counter == 1 ? "" : "s"));
 
     size_t comma_index = 0;
     char line[1024];
@@ -106,7 +106,7 @@ char *comma_input(int comma_counter) {
 
         if (comma_index < (size_t) comma_counter) {
             int commas_left = comma_counter - (int) comma_index;
-            printf("\nProvide %d more character%s of input (for ',' commands):\n", commas_left, (commas_left == 1 ? "" : "s"));
+            printf("\nComma inputs (Provide %d more character%s for ',' commands):\n", commas_left, (commas_left == 1 ? "" : "s"));
         }
     }
     printf("\n\n");
