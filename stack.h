@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#define MAX 1000
+#define MAX 100
 
 void push(size_t i);
 size_t pop();

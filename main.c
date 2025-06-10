@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "input.h"
 #include "bf.h"
+#include "stack.h"
 
 #define INITIAL_BUFFER_CAPACITY 128
 
@@ -46,7 +47,7 @@ int main(int argc, char *argv[]) {
     printf("\n");
 
     if (!is_empty()) {
-        fprintf(stderr, "UNBALANCED BRACKETS\n");
+        fprintf(stderr, "\nError: Unbalanced brackets.\n");
         exit(EXIT_FAILURE);
     }
 

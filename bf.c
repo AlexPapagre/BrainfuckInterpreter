@@ -5,7 +5,7 @@
 
 void greater_than(size_t *index) {
     if (*index >= BF_SIZE - 1) {
-        fprintf(stderr, "RANGE ERROR\n");
+        fprintf(stderr, "\nError: Range error.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -14,7 +14,7 @@ void greater_than(size_t *index) {
 
 void less_than(size_t *index) {
     if (*index == 0) {
-        fprintf(stderr, "RANGE ERROR\n");
+        fprintf(stderr, "\nError: Range error.\n");
         exit(EXIT_FAILURE);
     }
 

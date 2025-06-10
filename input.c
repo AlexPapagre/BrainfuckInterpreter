@@ -24,7 +24,7 @@ char *add_command(size_t *size, size_t *capacity, char *buffer, char c, int *com
     return buffer;
 }
 
-char *get_user_input(size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
+char *user_input(size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
     printf("Input: (Press enter after an emtpy row to stop input):\n");
 
     char line[1024];
@@ -42,7 +42,7 @@ char *get_user_input(size_t *size, size_t *capacity, char *buffer, int *comma_co
     return buffer;
 }
 
-char *get_file_input(char *filename, size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
+char *file_input(char *filename, size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error opening file.\n");
@@ -54,7 +54,7 @@ char *get_file_input(char *filename, size_t *size, size_t *capacity, char *buffe
     int c;
     while ((c = fgetc(file)) != EOF) {
         printf("%c", c);
-        buffer = addCommand(size, capacity, buffer, (char) c, comma_counter);
+        buffer = add_command(size, capacity, buffer, (char) c, comma_counter);
     }
 
     fclose(file);
