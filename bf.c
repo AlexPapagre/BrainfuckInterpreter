@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "bracket_stack.h"
 
 #define BF_SIZE 30000
 #define INITIAL_BUFFER_CAPACITY 128
@@ -62,13 +63,13 @@ void bf(char c, size_t *i, char *comma_inputs) {
             bf[index] = comma_inputs[comma_index++];
             break;
         case '[':
-            // TODO: push from stack
+            push(*i);
             break;
         case ']':
             if (bf[index] == 0) {
-                // TODO: pop from stack
+                pop();
             } else {
-                // TODO: peek from stack
+                *i = peek();
             }
             break;
     }
