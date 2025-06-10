@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "bracket_stack.h"
+#include "stack.h"
 
-size_t brackets[MAX];
+size_t stack[MAX];
 int top = -1;
 
 void push(size_t i) {
-    if (!isFull()) {
-        brackets[++top] = i;
+    if (!is_full()) {
+        stack[++top] = i;
     } else {
         fprintf(stderr, "Bracket stack overflow.\n");
         exit(EXIT_FAILURE);
@@ -15,8 +15,8 @@ void push(size_t i) {
 }
 
 size_t pop() {
-    if (!isEmpty()) {
-        return brackets[top--];
+    if (!is_empty()) {
+        return stack[top--];
     } else {
         fprintf(stderr, "UNBALANCED BRACKETS\n");
         exit(EXIT_FAILURE);
@@ -24,19 +24,19 @@ size_t pop() {
 }
 
 size_t peek() {
-    if (!isEmpty()) {
-        return brackets[top];
+    if (!is_empty()) {
+        return stack[top];
     } else {
         fprintf(stderr, "UNBALANCED BRACKETS\n");
         exit(EXIT_FAILURE);
     }
 }
 
-bool isEmpty() {
+bool is_empty() {
     return top == -1;
 }
 
-bool isFull() {
+bool is_full() {
     return top == MAX - 1;
 }
 

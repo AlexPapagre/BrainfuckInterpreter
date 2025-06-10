@@ -1,225 +1,83 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "bracket_stack.h"
+#include "bf.h"
+#include "stack.h"
 
-#define BF_SIZE 30000
-#define INITIAL_BUFFER_CAPACITY 128
-
-char *userInput(size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
-    printf("Input: (Press enter after an emtpy row to stop input):\n");
-
-    char line[1024];
-    while (fgets(line, sizeof(line), stdin) != NULL) {
-        if (strcmp(line, "\n") == 0) {
-            break;
-        }
-
-        for (size_t i = 0; i < strlen(line); i++) {
-            buffer = addCommand(size, capacity, buffer, line[i], comma_counter);
-        }
-    }
-
-    return buffer;
-}
-
-char *fileInput(char *filename, size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Error opening file.\n");
+void greater_than(size_t *index) {
+    if (*index >= BF_SIZE - 1) {
+        fprintf(stderr, "RANGE ERROR\n");
         exit(EXIT_FAILURE);
     }
 
-    printf("Input:\n");
-
-    int c;
-    while ((c = fgetc(file)) != EOF) {
-        printf("%c", c);
-        buffer = addCommand(size, capacity, buffer, (char) c, comma_counter);
-    }
-
-    fclose(file);
-
-    return buffer;
+    (*index)++;
 }
 
-char *addCommand(size_t *size, size_t *capacity, char *buffer, char c, int *comma_counter) {
-    if (*size >= *capacity) {
-        *capacity *= 2;
-        char *tmp_buffer = realloc(buffer, *capacity);
-        if (tmp_buffer == NULL) {
-            free(buffer);
-            perror("Memory reallocation failed.\n");
-            exit(EXIT_FAILURE);
-        }
-        buffer = tmp_buffer;
+void less_than(size_t *index) {
+    if (*index == 0) {
+        fprintf(stderr, "RANGE ERROR\n");
+        exit(EXIT_FAILURE);
     }
 
-    if (strchr("><+-.,[]", c)) {
-        buffer[(*size)++] = c;
-        if (c == ',') {
-            (*comma_counter)++;
-        }
-    }
-
-    return buffer;
+    (*index)--;
 }
 
-void bf(char c, size_t *i, char *comma_inputs) {
+void plus(unsigned char *bf, size_t index) {
+    bf[index]++;
+}
+
+void minus(unsigned char *bf, size_t index) {
+    bf[index]--;
+}
+
+void dot(unsigned char *bf, size_t index) {
+    printf("%c", bf[index]);
+}
+
+void comma(unsigned char *bf, size_t index, char *comma_inputs, size_t *comma_index) {
+    bf[index] = comma_inputs[(*comma_index)++];
+}
+
+void open_bracket(size_t current_pos) {
+    push(current_pos);
+}
+
+void close_bracket(unsigned char *bf, size_t index, size_t *i) {
+    if (bf[index] == 0) {
+        pop();
+    } else {
+        *i = peek();
+    }
+}
+
+void execute_command(char c, size_t *i, char *comma_inputs) {
     static unsigned char bf[BF_SIZE] = {0};
     static size_t index = 0;
     static size_t comma_index = 0;
 
     switch (c) {
         case '>':
-            if (index == BF_SIZE - 1) {
-                fprintf(stderr, "RANGE ERROR\n");
-                exit(EXIT_FAILURE);
-            }
-
-            index++;
+            greater_than(&index);
             break;
         case '<':
-            if (index == 0) {
-                fprintf(stderr, "RANGE ERROR\n");
-                exit(EXIT_FAILURE);
-            }
-
-            index--;
+            less_than(&index);
             break;
         case '+':
-            bf[index]++;
+            plus(bf, index);
             break;
         case '-':
-            bf[index]--;
+            minus(bf, index);
             break;
         case '.':
-            printf("%c", bf[index]);
+            dot(bf, index);
             break;
         case ',':
-            bf[index] = comma_inputs[comma_index++];
+            comma(bf, index, comma_inputs, &comma_index);
             break;
         case '[':
-            push(*i);
+            open_bracket(*i);
             break;
         case ']':
-            if (bf[index] == 0) {
-                pop();
-            } else {
-                *i = peek();
-            }
+            close_bracket(bf, index, i);
             break;
     }
-}
-
-int main(int argc, char *argv[]) {
-    if (argc > 2) {
-        fprintf(stderr, "Usage 1: %s\n", argv[0]);
-        fprintf(stderr, "Usage 2: %s <filename>\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
-
-    size_t size = 0;
-    size_t capacity = INITIAL_BUFFER_CAPACITY;
-
-    char *buffer = malloc(capacity);
-    if (buffer == NULL) {
-        perror("Memory allocation failed.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    int comma_counter = 0;
-
-    if (argc < 2) {
-        buffer = userInput(&size, &capacity, buffer, &comma_counter);
-    } else {
-        FILE *file = fopen(argv[1], "r");
-        if (file == NULL) {
-            perror("Error opening file.\n");
-            exit(EXIT_FAILURE);
-        }
-
-        printf("Input:\n");
-
-        int c;
-        while ((c = fgetc(file)) != EOF) {
-            printf("%c", c);
-            buffer = addCommand(&size, &capacity, buffer, c, &comma_counter);
-        }
-
-        fclose(file);
-    }
-    buffer = (argc < 2) ? userInput(&size, &capacity, buffer, &comma_counter) : fileInput(argv[1], &size, &capacity, buffer, &comma_counter);
-    printf("\n\n");
-
-    if (size >= capacity) {
-        capacity += 1;
-        char *tmp_buffer = realloc(buffer, capacity);
-        if (tmp_buffer == NULL) {
-            perror("Memory reallocation failed.\n");
-            exit(EXIT_FAILURE);
-        }
-        buffer = tmp_buffer;
-    }
-    buffer[size] = '\0';
-
-    if (size == 0) {
-        fprintf(stderr, "No commands found.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    printf("Clean input (commands only):\n%s\n\n", buffer);
-
-    char *comma_inputs;
-
-    if (comma_counter > 0) {
-        comma_inputs = malloc(comma_counter);
-        if (comma_inputs == NULL) {
-            perror("Memory allocation failed.\n");
-            exit(EXIT_FAILURE);
-        }
-
-        printf("\nProvide %d character%s of input (for ',' commands):\n", comma_counter, (comma_counter == 1 ? "" : "s"));
-
-        size_t comma_index = 0;
-        char line[1024];
-
-        while (comma_index < (size_t) comma_counter) {
-            if (fgets(line, sizeof(line), stdin) == NULL) {
-                fprintf(stderr, "Error reading input.\n");
-                exit(EXIT_FAILURE);
-            }
-
-            for (size_t i = 0; i < strlen(line) && comma_index < (size_t) comma_counter; i++) {
-                if (line[i] != '\n') {
-                    comma_inputs[comma_index++] = line[i];
-                }
-            }
-
-            if (comma_index < (size_t) comma_counter) {
-                int commas_left = comma_counter - (int) comma_index;
-                printf("\nProvide %d more character%s of input (for ',' commands):\n", commas_left, (commas_left == 1 ? "" : "s"));
-            }
-        }
-        printf("\n\n");
-    }
-
-    printf("Output:\n");
-
-    for (size_t i = 0; i < size; i++) {
-        bf(buffer[i], &i, comma_inputs);
-    }
-    printf("\n");
-
-    if (!isEmpty()) {
-        fprintf(stderr, "UNBALANCED BRACKETS\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if (comma_counter > 0) {
-        free(comma_inputs);
-    }
-    free(buffer);
-
-    return 0;
 }
