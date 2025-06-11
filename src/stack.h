@@ -1,10 +1,8 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <stddef.h>
 #include <stdbool.h>
-
-#define MAX 100
+#include <stddef.h>
 
 void push(size_t i);
 size_t pop();

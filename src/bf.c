@@ -1,7 +1,10 @@
+#include "bf.h"
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "bf.h"
 #include "stack.h"
+
+#define BF_SIZE 30000
 
 void greater_than(size_t *index) {
     if (*index >= BF_SIZE - 1) {
@@ -79,5 +82,20 @@ void execute_command(char c, size_t *i, char *comma_inputs) {
         case ']':
             close_bracket(bf, index, i);
             break;
+    }
+}
+
+void run_bf_code(char *buffer, char *comma_inputs) {
+    printf("Output:\n");
+
+    for (size_t i = 0; buffer[i] != '\0'; i++) {
+        execute_command(buffer[i], &i, comma_inputs);
+    }
+
+    printf("\n");
+
+    if (!is_empty()) {
+        fprintf(stderr, "\nError: Unbalanced brackets.\n");
+        exit(EXIT_FAILURE);
     }
 }

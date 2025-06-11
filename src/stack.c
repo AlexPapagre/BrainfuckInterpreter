@@ -1,9 +1,11 @@
+#include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "stack.h"
 
-size_t stack[MAX];
-int top = -1;
+#define MAX 100
+
+static size_t stack[MAX];
+static int top = -1;
 
 bool is_empty() {
     return top == -1;

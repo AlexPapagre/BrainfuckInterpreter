@@ -1,6 +1,10 @@
+#include "input.h"
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define INITIAL_BUFFER_CAPACITY 128
 
 char *add_command(size_t *size, size_t *capacity, char *buffer, char c, int *comma_counter) {
     if (*size >= *capacity) {
@@ -112,4 +116,27 @@ char *comma_input(int comma_counter) {
     printf("\n\n");
 
     return comma_inputs;
+}
+
+char *read_bf_code(int argc, char *filename, int *comma_counter) {
+    size_t size = 0;
+    size_t capacity = INITIAL_BUFFER_CAPACITY;
+
+    char *buffer = malloc(capacity);
+    if (buffer == NULL) {
+        perror("Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    buffer = (argc < 2) ? user_input(&size, &capacity, buffer, comma_counter) : file_input(filename, &size, &capacity, buffer, comma_counter);
+    printf("\n\n");
+
+    add_null_terminator(size, capacity, buffer);
+
+    if (size == 0) {
+        fprintf(stderr, "Error: No commands found.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return buffer;
 }
