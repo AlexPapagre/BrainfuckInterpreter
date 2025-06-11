@@ -6,12 +6,12 @@
 
 #define INITIAL_BUFFER_CAPACITY 128
 
-void usage_message(char *bf) {
+void usage_message(const char *bf) {
     fprintf(stderr, "Usage 1: %s\n", bf);
     fprintf(stderr, "Usage 2: %s <filename>\n", bf);
 }
 
-void check_args(int argc, char *bf) {
+void check_args(int argc, const char *bf) {
     if (argc > 2) {
         usage_message(bf);
         exit(EXIT_FAILURE);
@@ -58,7 +58,7 @@ char *user_input(size_t *size, size_t *capacity, char *buffer, int *comma_counte
     return buffer;
 }
 
-char *file_input(char *filename, size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
+char *file_input(const char *filename, size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error opening file.\n");
@@ -92,7 +92,7 @@ void add_null_terminator(size_t size, size_t capacity, char *buffer) {
     buffer[size] = '\0';
 }
 
-char *read_bf_code(int argc, char *filename, int *comma_counter) {
+char *read_bf_code(int argc, const char *filename, int *comma_counter) {
     size_t size = 0;
     size_t capacity = INITIAL_BUFFER_CAPACITY;
 
