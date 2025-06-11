@@ -6,10 +6,14 @@
 
 #define INITIAL_BUFFER_CAPACITY 128
 
+void usage_message(char *bf) {
+    fprintf(stderr, "Usage 1: %s\n", bf);
+    fprintf(stderr, "Usage 2: %s <filename>\n", bf);
+}
+
 void check_args(int argc, char *bf) {
     if (argc > 2) {
-        fprintf(stderr, "Usage 1: %s\n", bf);
-        fprintf(stderr, "Usage 2: %s <filename>\n", bf);
+        usage_message(bf);
         exit(EXIT_FAILURE);
     }
 }
