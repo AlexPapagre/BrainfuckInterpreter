@@ -80,7 +80,30 @@ void add_null_terminator(size_t size, size_t capacity, char *buffer) {
     buffer[size] = '\0';
 }
 
-char *comma_input(int comma_counter) {
+char *read_bf_code(int argc, char *filename, int *comma_counter) {
+    size_t size = 0;
+    size_t capacity = INITIAL_BUFFER_CAPACITY;
+
+    char *buffer = malloc(capacity);
+    if (buffer == NULL) {
+        perror("Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    buffer = (argc < 2) ? user_input(&size, &capacity, buffer, comma_counter) : file_input(filename, &size, &capacity, buffer, comma_counter);
+    printf("\n\n");
+
+    add_null_terminator(size, capacity, buffer);
+
+    if (size == 0) {
+        fprintf(stderr, "Error: No commands found.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return buffer;
+}
+
+char *get_comma_input(int comma_counter) {
     if (comma_counter == 0) {
         return NULL;
     }
@@ -116,27 +139,4 @@ char *comma_input(int comma_counter) {
     printf("\n\n");
 
     return comma_inputs;
-}
-
-char *read_bf_code(int argc, char *filename, int *comma_counter) {
-    size_t size = 0;
-    size_t capacity = INITIAL_BUFFER_CAPACITY;
-
-    char *buffer = malloc(capacity);
-    if (buffer == NULL) {
-        perror("Memory allocation failed.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    buffer = (argc < 2) ? user_input(&size, &capacity, buffer, comma_counter) : file_input(filename, &size, &capacity, buffer, comma_counter);
-    printf("\n\n");
-
-    add_null_terminator(size, capacity, buffer);
-
-    if (size == 0) {
-        fprintf(stderr, "Error: No commands found.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    return buffer;
 }

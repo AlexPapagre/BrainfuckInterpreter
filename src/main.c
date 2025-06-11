@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     printf("Clean input (commands only):\n");
     printf("%s\n\n", buffer);
 
-    char *comma_inputs = comma_input(comma_counter);
+    char *comma_inputs = get_comma_input(comma_counter);
 
     run_bf_code(buffer, comma_inputs);
 
