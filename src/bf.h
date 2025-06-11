@@ -1,6 +1,6 @@
 #ifndef BF_H
 #define BF_H
 
-void run_bf_code(char *buffer, char *comma_inputs);
+void run_bf_code(const char *buffer, const char *comma_inputs);
 
 #endif
