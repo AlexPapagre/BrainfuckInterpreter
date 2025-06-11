@@ -104,7 +104,7 @@ char *read_bf_code(int argc, char *filename, int *comma_counter) {
 }
 
 char *get_comma_inputs(int comma_counter) {
-    if (comma_counter == 0) {
+    if (comma_counter <= 0) {
         return NULL;
     }
 
