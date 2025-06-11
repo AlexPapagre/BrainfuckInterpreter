@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     add_null_terminator(size, capacity, buffer);
 
     if (size == 0) {
-        fprintf(stderr, "No commands found.\n");
+        fprintf(stderr, "Error: No commands found.\n");
         exit(EXIT_FAILURE);
     }
 
