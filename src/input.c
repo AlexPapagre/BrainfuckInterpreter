@@ -66,7 +66,7 @@ char *file_input(const char *filename, size_t *size, size_t *capacity, char *cod
     return code;
 }
 
-void add_null_terminator(size_t size, size_t capacity, char *code) {
+char *add_null_terminator(size_t size, size_t capacity, char *code) {
     if (size >= capacity) {
         capacity += 1;
         char *tmp_code = realloc(code, capacity);
@@ -76,8 +76,9 @@ void add_null_terminator(size_t size, size_t capacity, char *code) {
         }
         code = tmp_code;
     }
-
     code[size] = '\0';
+
+    return code;
 }
 
 char *read_bf_code(int argc, const char *filename, int *comma_counter) {
@@ -93,7 +94,7 @@ char *read_bf_code(int argc, const char *filename, int *comma_counter) {
     code = (argc < 2) ? user_input(&size, &capacity, code, comma_counter) : file_input(filename, &size, &capacity, code, comma_counter);
     printf("\n\n");
 
-    add_null_terminator(size, capacity, code);
+    code = add_null_terminator(size, capacity, code);
 
     if (size == 0) {
         fprintf(stderr, "Error: No commands found.\n");
