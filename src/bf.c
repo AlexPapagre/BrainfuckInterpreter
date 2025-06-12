@@ -36,8 +36,8 @@ static void dot(const unsigned char *bf, size_t index) {
     printf("%c", bf[index]);
 }
 
-static void comma(unsigned char *bf, size_t index) {
-    bf[index] = next_comma_input();
+static void comma(unsigned char *bf, size_t index, size_t comma_counter) {
+    bf[index] = next_comma_input(comma_counter);
 }
 
 static void open_bracket(size_t current_pos) {
@@ -52,7 +52,7 @@ static void close_bracket(const unsigned char *bf, size_t index, size_t *i) {
     }
 }
 
-static void execute_command(char c, size_t *i) {
+static void execute_command(char c, size_t *i, size_t comma_counter) {
     static unsigned char bf[BF_SIZE] = {0};
     static size_t index = 0;
 
@@ -62,17 +62,17 @@ static void execute_command(char c, size_t *i) {
         case '+': plus(bf, index); break;
         case '-': minus(bf, index); break;
         case '.': dot(bf, index); break;
-        case ',': comma(bf, index); break;
+        case ',': comma(bf, index, comma_counter); break;
         case '[': open_bracket(*i); break;
         case ']': close_bracket(bf, index, i); break;
     }
 }
 
-void run_bf_code(const char *code) {
+void run_bf_code(const char *code, size_t comma_counter) {
     printf("Output:\n");
 
     for (size_t i = 0; code[i] != '\0'; i++) {
-        execute_command(code[i], &i);
+        execute_command(code[i], &i, comma_counter);
     }
 
     if (!is_empty()) {

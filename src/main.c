@@ -8,7 +8,7 @@
 int main(int argc, char *argv[]) {
     check_args(argc, argv[0]);
 
-    int comma_counter = 0;
+    size_t comma_counter = 0;
     char *code = read_bf_code(argc, argv[1], &comma_counter);
 
     printf("Clean input (commands only):\n");
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 
     get_comma_inputs(comma_counter);
 
-    run_bf_code(code);
+    run_bf_code(code, comma_counter);
 
     free_comma_inputs(comma_counter);
     free(code);

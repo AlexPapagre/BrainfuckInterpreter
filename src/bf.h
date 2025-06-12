@@ -1,6 +1,8 @@
 #ifndef BF_H
 #define BF_H
 
-void run_bf_code(const char *buffer);
+#include <stddef.h>
+
+void run_bf_code(const char *buffer, size_t comma_counter);
 
 #endif

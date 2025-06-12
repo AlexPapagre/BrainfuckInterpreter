@@ -5,7 +5,7 @@
 
 #define INITIAL_CODE_CAPACITY 128
 
-static char *add_command(size_t *size, size_t *capacity, char *code, char c, int *comma_counter) {
+static char *add_command(size_t *size, size_t *capacity, char *code, char c, size_t *comma_counter) {
     if (*size >= *capacity) {
         *capacity *= 2;
         char *tmp_code = realloc(code, *capacity);
@@ -27,7 +27,7 @@ static char *add_command(size_t *size, size_t *capacity, char *code, char c, int
     return code;
 }
 
-static char *user_input(size_t *size, size_t *capacity, char *code, int *comma_counter) {
+static char *user_input(size_t *size, size_t *capacity, char *code, size_t *comma_counter) {
     printf("Input: (Press Enter after an emtpy row to stop input):\n");
 
     char line[1024];
@@ -45,7 +45,7 @@ static char *user_input(size_t *size, size_t *capacity, char *code, int *comma_c
     return code;
 }
 
-static char *file_input(const char *filename, size_t *size, size_t *capacity, char *code, int *comma_counter) {
+static char *file_input(const char *filename, size_t *size, size_t *capacity, char *code, size_t *comma_counter) {
     FILE *file = fopen(filename, "r");
     if (!file) {
         perror("Error opening file.\n");
@@ -80,7 +80,7 @@ static char *add_null_terminator(size_t size, size_t capacity, char *code) {
     return code;
 }
 
-char *read_bf_code(int argc, const char *filename, int *comma_counter) {
+char *read_bf_code(int argc, const char *filename, size_t *comma_counter) {
     size_t size = 0;
     size_t capacity = INITIAL_CODE_CAPACITY;
 
