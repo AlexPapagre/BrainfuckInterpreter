@@ -1,9 +1,14 @@
-all: bf
+CC = gcc
+SRC = src/main.c src/args.c src/input.c src/bf.c src/stack.c
+OUT = bf
+CFLAGS = -Wall -Wextra -O2
 
-bf: src/main.c src/args.c src/input.c src/bf.c src/stack.c
-	@gcc src/main.c src/args.c src/input.c src/bf.c src/stack.c -o bf
-	@echo "Build complete: bf created successfully."
+all: $(OUT)
+
+$(OUT): $(SRC)
+	@$(CC) $(CFLAGS) $(SRC) -o $(OUT)
+	@echo "Build complete: $(OUT) created successfully."
 
 clean:
-	@rm -f bf
+	@rm -f $(OUT)
 	@echo "Cleaned build files."
