@@ -6,18 +6,6 @@
 
 #define INITIAL_BUFFER_CAPACITY 128
 
-void usage_message(const char *bf) {
-    fprintf(stderr, "Usage 1: %s\n", bf);
-    fprintf(stderr, "Usage 2: %s <filename>\n", bf);
-}
-
-void check_args(int argc, const char *bf) {
-    if (argc > 2) {
-        usage_message(bf);
-        exit(EXIT_FAILURE);
-    }
-}
-
 char *add_command(size_t *size, size_t *capacity, char *buffer, char c, int *comma_counter) {
     if (*size >= *capacity) {
         *capacity *= 2;
