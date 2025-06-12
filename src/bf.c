@@ -58,30 +58,14 @@ void execute_command(char c, size_t *i, const char *comma_inputs) {
     static size_t comma_index = 0;
 
     switch (c) {
-        case '>':
-            greater_than(&index);
-            break;
-        case '<':
-            less_than(&index);
-            break;
-        case '+':
-            plus(bf, index);
-            break;
-        case '-':
-            minus(bf, index);
-            break;
-        case '.':
-            dot(bf, index);
-            break;
-        case ',':
-            comma(bf, index, comma_inputs, &comma_index);
-            break;
-        case '[':
-            open_bracket(*i);
-            break;
-        case ']':
-            close_bracket(bf, index, i);
-            break;
+        case '>': greater_than(&index); break;
+        case '<': less_than(&index); break;
+        case '+': plus(bf, index); break;
+        case '-': minus(bf, index); break;
+        case '.': dot(bf, index); break;
+        case ',': comma(bf, index, comma_inputs, &comma_index); break;
+        case '[': open_bracket(*i); break;
+        case ']': close_bracket(bf, index, i); break;
     }
 }
 
