@@ -44,7 +44,7 @@ You'll be prompted to type your code. Press `Enter` after an empty row when you'
 
 Run a Brainfuck program from a file.
 
-For example, if you have a file called `helloWorld.bf` inside the `sample_bf_code` directory:
+For example, if you have a file called `helloWorld.bf` inside the `sample_bf_code` directory, run:
 
 ```bash
 ./bf sample_bf_code/helloWorld.bf
