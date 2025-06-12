@@ -16,7 +16,7 @@ void greater_than(size_t *index) {
 }
 
 void less_than(size_t *index) {
-    if (*index == 0) {
+    if (*index <= 0) {
         fprintf(stderr, "\nError: Range error.\n");
         exit(EXIT_FAILURE);
     }
