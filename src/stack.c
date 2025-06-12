@@ -11,7 +11,7 @@ bool is_empty() {
     return top == -1;
 }
 
-bool is_full() {
+static bool is_full() {
     return top == MAX - 1;
 }
 
@@ -42,6 +42,6 @@ size_t peek() {
     }
 }
 
-int size() {
+static int size() {
     return top + 1;
 }

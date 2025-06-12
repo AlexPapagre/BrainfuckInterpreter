@@ -5,7 +5,7 @@
 
 #define INITIAL_CODE_CAPACITY 128
 
-char *add_command(size_t *size, size_t *capacity, char *code, char c, int *comma_counter) {
+static char *add_command(size_t *size, size_t *capacity, char *code, char c, int *comma_counter) {
     if (*size >= *capacity) {
         *capacity *= 2;
         char *tmp_code = realloc(code, *capacity);
@@ -27,7 +27,7 @@ char *add_command(size_t *size, size_t *capacity, char *code, char c, int *comma
     return code;
 }
 
-char *user_input(size_t *size, size_t *capacity, char *code, int *comma_counter) {
+static char *user_input(size_t *size, size_t *capacity, char *code, int *comma_counter) {
     printf("Input: (Press Enter after an emtpy row to stop input):\n");
 
     char line[1024];
@@ -45,7 +45,7 @@ char *user_input(size_t *size, size_t *capacity, char *code, int *comma_counter)
     return code;
 }
 
-char *file_input(const char *filename, size_t *size, size_t *capacity, char *code, int *comma_counter) {
+static char *file_input(const char *filename, size_t *size, size_t *capacity, char *code, int *comma_counter) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error opening file.\n");
@@ -65,7 +65,7 @@ char *file_input(const char *filename, size_t *size, size_t *capacity, char *cod
     return code;
 }
 
-char *add_null_terminator(size_t size, size_t capacity, char *code) {
+static char *add_null_terminator(size_t size, size_t capacity, char *code) {
     if (size >= capacity) {
         capacity += 1;
         char *tmp_code = realloc(code, capacity);

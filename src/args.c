@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void usage_message(const char *bf) {
+static void usage_message(const char *bf) {
     fprintf(stderr, "Usage 1: %s\n", bf);
     fprintf(stderr, "Usage 2: %s <filename>\n", bf);
 }
