@@ -42,6 +42,6 @@ size_t peek() {
     }
 }
 
-static int size() {
+int size() {
     return top + 1;
 }

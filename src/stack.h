@@ -8,5 +8,6 @@ void push(size_t i);
 size_t pop();
 size_t peek();
 bool is_empty();
+int size();
 
 #endif

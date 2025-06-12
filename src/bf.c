@@ -75,10 +75,10 @@ void run_bf_code(const char *code, const char *comma_inputs) {
         execute_command(code[i], &i, comma_inputs);
     }
 
-    printf("\n");
-
     if (!is_empty()) {
-        fprintf(stderr, "\nError: Unbalanced brackets.\n");
+        fprintf(stderr, "Error: Unbalanced brackets - %d unmatched '['.\n", size());
         exit(EXIT_FAILURE);
     }
+
+    printf("\n");
 }
