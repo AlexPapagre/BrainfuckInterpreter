@@ -85,11 +85,11 @@ void execute_command(char c, size_t *i, const char *comma_inputs) {
     }
 }
 
-void run_bf_code(const char *buffer, const char *comma_inputs) {
+void run_bf_code(const char *code, const char *comma_inputs) {
     printf("Output:\n");
 
-    for (size_t i = 0; buffer[i] != '\0'; i++) {
-        execute_command(buffer[i], &i, comma_inputs);
+    for (size_t i = 0; code[i] != '\0'; i++) {
+        execute_command(code[i], &i, comma_inputs);
     }
 
     printf("\n");
