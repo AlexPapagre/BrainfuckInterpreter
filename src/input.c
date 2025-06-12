@@ -4,31 +4,31 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define INITIAL_BUFFER_CAPACITY 128
+#define INITIAL_CODE_CAPACITY 128
 
-char *add_command(size_t *size, size_t *capacity, char *buffer, char c, int *comma_counter) {
+char *add_command(size_t *size, size_t *capacity, char *code, char c, int *comma_counter) {
     if (*size >= *capacity) {
         *capacity *= 2;
-        char *tmp_buffer = realloc(buffer, *capacity);
-        if (tmp_buffer == NULL) {
-            free(buffer);
+        char *tmp_code = realloc(code, *capacity);
+        if (tmp_code == NULL) {
+            free(code);
             perror("Memory reallocation failed.\n");
             exit(EXIT_FAILURE);
         }
-        buffer = tmp_buffer;
+        code = tmp_code;
     }
 
     if (strchr("><+-.,[]", c)) {
-        buffer[(*size)++] = c;
+        code[(*size)++] = c;
         if (c == ',') {
             (*comma_counter)++;
         }
     }
 
-    return buffer;
+    return code;
 }
 
-char *user_input(size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
+char *user_input(size_t *size, size_t *capacity, char *code, int *comma_counter) {
     printf("Input: (Press Enter after an emtpy row to stop input):\n");
 
     char line[1024];
@@ -39,14 +39,14 @@ char *user_input(size_t *size, size_t *capacity, char *buffer, int *comma_counte
 
         size_t length = strlen(line);
         for (size_t i = 0; i < length; i++) {
-            buffer = add_command(size, capacity, buffer, line[i], comma_counter);
+            code = add_command(size, capacity, code, line[i], comma_counter);
         }
     }
 
-    return buffer;
+    return code;
 }
 
-char *file_input(const char *filename, size_t *size, size_t *capacity, char *buffer, int *comma_counter) {
+char *file_input(const char *filename, size_t *size, size_t *capacity, char *code, int *comma_counter) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error opening file.\n");
@@ -58,49 +58,49 @@ char *file_input(const char *filename, size_t *size, size_t *capacity, char *buf
     int c;
     while ((c = fgetc(file)) != EOF) {
         printf("%c", c);
-        buffer = add_command(size, capacity, buffer, (char) c, comma_counter);
+        code = add_command(size, capacity, code, (char) c, comma_counter);
     }
 
     fclose(file);
 
-    return buffer;
+    return code;
 }
 
-void add_null_terminator(size_t size, size_t capacity, char *buffer) {
+void add_null_terminator(size_t size, size_t capacity, char *code) {
     if (size >= capacity) {
         capacity += 1;
-        char *tmp_buffer = realloc(buffer, capacity);
-        if (tmp_buffer == NULL) {
+        char *tmp_code = realloc(code, capacity);
+        if (tmp_code == NULL) {
             perror("Memory reallocation failed.\n");
             exit(EXIT_FAILURE);
         }
-        buffer = tmp_buffer;
+        code = tmp_code;
     }
 
-    buffer[size] = '\0';
+    code[size] = '\0';
 }
 
 char *read_bf_code(int argc, const char *filename, int *comma_counter) {
     size_t size = 0;
-    size_t capacity = INITIAL_BUFFER_CAPACITY;
+    size_t capacity = INITIAL_CODE_CAPACITY;
 
-    char *buffer = malloc(capacity);
-    if (buffer == NULL) {
+    char *code = malloc(capacity);
+    if (code == NULL) {
         perror("Memory allocation failed.\n");
         exit(EXIT_FAILURE);
     }
 
-    buffer = (argc < 2) ? user_input(&size, &capacity, buffer, comma_counter) : file_input(filename, &size, &capacity, buffer, comma_counter);
+    code = (argc < 2) ? user_input(&size, &capacity, code, comma_counter) : file_input(filename, &size, &capacity, code, comma_counter);
     printf("\n\n");
 
-    add_null_terminator(size, capacity, buffer);
+    add_null_terminator(size, capacity, code);
 
     if (size == 0) {
         fprintf(stderr, "Error: No commands found.\n");
         exit(EXIT_FAILURE);
     }
 
-    return buffer;
+    return code;
 }
 
 char *get_comma_inputs(int comma_counter) {
