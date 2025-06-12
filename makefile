@@ -1,7 +1,7 @@
 all: bf
 
-bf: src/main.c src/check.c src/input.c src/bf.c src/stack.c
-	gcc src/main.c src/check.c src/input.c src/bf.c src/stack.c -o bf
+bf: src/main.c src/args.c src/input.c src/bf.c src/stack.c
+	gcc src/main.c src/args.c src/input.c src/bf.c src/stack.c -o bf
 	@echo "Build complete: bf created successfully."
 
 clean:
