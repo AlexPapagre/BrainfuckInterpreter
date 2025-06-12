@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "args.h"
+#include "comma_input.h"
 #include "input.h"
 #include "bf.h"
 
@@ -13,13 +14,11 @@ int main(int argc, char *argv[]) {
     printf("Clean input (commands only):\n");
     printf("%s\n\n", code);
 
-    char *comma_inputs = get_comma_inputs(comma_counter);
+    get_comma_inputs(comma_counter);
 
-    run_bf_code(code, comma_inputs);
+    run_bf_code(code);
 
-    if (comma_counter > 0) {
-        free(comma_inputs);
-    }
+    free_comma_inputs(comma_counter);
     free(code);
 
     return 0;

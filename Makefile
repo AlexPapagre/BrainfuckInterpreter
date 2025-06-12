@@ -1,5 +1,5 @@
 CC = gcc
-SRC = src/main.c src/args.c src/input.c src/bf.c src/stack.c
+SRC = src/main.c src/args.c src/comma_input.c src/input.c src/bf.c src/stack.c
 OUT = bf
 CFLAGS = -Wall -Wextra -O2
 

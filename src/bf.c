@@ -1,6 +1,7 @@
 #include "bf.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "comma_input.h"
 #include "stack.h"
 
 #define BF_SIZE 30000
@@ -35,8 +36,8 @@ static void dot(const unsigned char *bf, size_t index) {
     printf("%c", bf[index]);
 }
 
-static void comma(unsigned char *bf, size_t index, const char *comma_inputs, size_t *comma_index) {
-    bf[index] = comma_inputs[(*comma_index)++];
+static void comma(unsigned char *bf, size_t index) {
+    bf[index] = next_comma_input();
 }
 
 static void open_bracket(size_t current_pos) {
@@ -51,10 +52,9 @@ static void close_bracket(const unsigned char *bf, size_t index, size_t *i) {
     }
 }
 
-static void execute_command(char c, size_t *i, const char *comma_inputs) {
+static void execute_command(char c, size_t *i) {
     static unsigned char bf[BF_SIZE] = {0};
     static size_t index = 0;
-    static size_t comma_index = 0;
 
     switch (c) {
         case '>': greater_than(&index); break;
@@ -62,17 +62,17 @@ static void execute_command(char c, size_t *i, const char *comma_inputs) {
         case '+': plus(bf, index); break;
         case '-': minus(bf, index); break;
         case '.': dot(bf, index); break;
-        case ',': comma(bf, index, comma_inputs, &comma_index); break;
+        case ',': comma(bf, index); break;
         case '[': open_bracket(*i); break;
         case ']': close_bracket(bf, index, i); break;
     }
 }
 
-void run_bf_code(const char *code, const char *comma_inputs) {
+void run_bf_code(const char *code) {
     printf("Output:\n");
 
     for (size_t i = 0; code[i] != '\0'; i++) {
-        execute_command(code[i], &i, comma_inputs);
+        execute_command(code[i], &i);
     }
 
     if (!is_empty()) {
