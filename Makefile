@@ -1,14 +1,29 @@
 CC = gcc
-SRC = src/main.c src/args.c src/comma_input.c src/input.c src/bf.c src/stack.c
-OUT = bf
-CFLAGS = -Wall -Wextra -O2
+CFLAGS = -Wall -Wextra
 
-all: $(OUT)
+SRC_DIR = src
+OBJ_DIR = build
 
-$(OUT): $(SRC)
-	@$(CC) $(CFLAGS) $(SRC) -o $(OUT)
-	@echo "Build complete: $(OUT) created successfully."
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+
+TARGET = bf
+
+.PHONY: all clean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(TARGET)
+	@echo "Build complete: $(TARGET) created successfully."
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled $< -> $@"
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
 clean:
-	@rm -f $(OUT)
-	@echo "Cleaned build files."
+	@rm -rf $(OBJ_DIR) $(TARGET)
+	@echo "Cleaned build directory and $(TARGET) executable."

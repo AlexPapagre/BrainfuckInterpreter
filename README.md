@@ -24,7 +24,10 @@ To compile the project, run:
 make
 ```
 
-This will build the program and create an executable file called `bf`.
+This command will:
+
+- Compile each source `.c` file into an object `.o` file inside the `build/` directory.
+- Link all object files to create the executable file called `bf`.
 
 ---
 
@@ -54,13 +57,13 @@ For example, if you have a file called `helloWorld.bf` inside the `sample_bf_cod
 
 ### Clean
 
-Remove the compiled executable file `bf`:
+Remove the compiled executable file `bf` **and all object files** in the `build` directory:
 
 ```bash
 make clean
 ```
 
-Use this if you want to rebuild from scratch or delete the executable entirely.
+Use this if you want to rebuild from scratch or delete all build artifacts including the executable and object files.
 
 ---
 
